@@ -12,9 +12,10 @@ module.exports = {
       },
       colors: {
         brand: {
-          green: "#3EB489",         // example shade of green
-          orange: "#FFA500",        // standard orange
-          darkgreen: "#256D4A",     // optional deeper green
+          green: "#15803d",
+          orange: "#ea580c",
+          darkgreen: "#1F5C3B",
+          waterblue: "#0077B6",
         },
       },
     },
