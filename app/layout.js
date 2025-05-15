@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { UserProvider } from "@/contexts/UserContext";
 
 export const metadata = {
   title: "GreenBite",
@@ -11,9 +12,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen">
-        <Navbar />
-        <div className="flex-grow">{children}</div>
-        <Footer />
+        <UserProvider>
+          <Navbar />
+          <div className="flex-grow">{children}</div>
+          <Footer />
+        </UserProvider>
       </body>
     </html>
   );
