@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import Link from "next/link";
 import { useUser } from "@/contexts/UserContext";
 import { useRouter } from "next/navigation";
@@ -28,7 +28,11 @@ export default function Navbar() {
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo + Name (Left) */}
         <div className="flex items-center space-x-2">
-          <img src="/logo.png" alt="GreenBite logo" className="w-14 h-14 object-contain" />
+          <img
+            src="/logo.png"
+            alt="GreenBite logo"
+            className="w-14 h-14 object-contain"
+          />
           <span className="text-2xl font-bold text-white">GreenBite</span>
         </div>
 
@@ -56,7 +60,7 @@ export default function Navbar() {
             <div className="relative inline-block text-left">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-green text-white font-bold"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-bold"
                 aria-haspopup="true"
               >
                 {user.name.charAt(0).toUpperCase()}
@@ -66,7 +70,7 @@ export default function Navbar() {
                   <div className="px-4 py-2 text-sm">Hello, {user.name}</div>
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    className="block w-full text-middle px-4 py-2 text-sm text-red-600 hover:bg-red-300"
                   >
                     Log Out
                   </button>
@@ -107,7 +111,7 @@ export default function Navbar() {
             <div className="relative inline-block text-left">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-green text-white font-bold mx-auto"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-bold mx-auto"
                 aria-haspopup="true"
               >
                 {user.name.charAt(0).toUpperCase()}
@@ -117,7 +121,7 @@ export default function Navbar() {
                   <div className="px-4 py-2 text-sm">Hello, {user.name}</div>
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    className="block w-full text-middle px-4 py-2 text-sm text-red-600 hover:bg-red-300"
                   >
                     Log Out
                   </button>
