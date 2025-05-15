@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import clsx from "clsx";
 import NotFound from "@/app/not-found";
 
 export interface Post {
@@ -72,6 +73,10 @@ export default async function Community({ searchParams }: SearchParams) {
               pathname: "/community",
               query: { _page: 1, _limit: pageSize },
             }}
+            className={clsx(
+              "rounded bg-orange-300 px-3 py-2 text-green-800 font-bold text-xs",
+              page === 1 && "pointer-events-none opacity-50"
+            )}
           >
             FIRST
           </Link>
@@ -80,6 +85,10 @@ export default async function Community({ searchParams }: SearchParams) {
               pathname: "/community",
               query: { _page: page > 1 ? page - 1 : 1, _limit: pageSize },
             }}
+            className={clsx(
+              "rounded bg-green-500 px-3 py-2 text-white font-bold text-xs",
+              page === 1 && "pointer-events-none opacity-50"
+            )}
           >
             PREVIOUS
           </Link>
@@ -88,6 +97,10 @@ export default async function Community({ searchParams }: SearchParams) {
               pathname: "/community",
               query: { _page: page + 1, _limit: pageSize },
             }}
+            className={clsx(
+              "rounded bg-green-500 px-3 py-2 text-white font-bold text-xs",
+              page === totalPages && "pointer-events-none opacity-50"
+            )}
           >
             NEXT
           </Link>
@@ -96,6 +109,10 @@ export default async function Community({ searchParams }: SearchParams) {
               pathname: "/community",
               query: { _page: totalPages, _limit: pageSize },
             }}
+            className={clsx(
+              "rounded bg-orange-300 px-3 py-2 text-green-800 font-bold text-xs",
+              page === totalPages && "pointer-events-none opacity-50"
+            )}
           >
             LAST
           </Link>
