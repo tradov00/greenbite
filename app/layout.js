@@ -6,6 +6,10 @@ import { UserProvider } from "@/contexts/UserContext";
 export const metadata = {
   title: "GreenBite",
   description: "Eco-friendly recipes for a better world",
+    icons: {
+    icon: '/favicon.ico',
+  },
+
 };
 
 export default function RootLayout({ children }) {
