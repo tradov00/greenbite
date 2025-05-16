@@ -8,7 +8,7 @@ export default function Hero() {
         </p>
         <a
           href="/recipes"
-          className="bg-white text-green-600 font-semibold py-2 px-6 rounded hover:bg-green-100"
+          className="bg-white text-lg text-green-600 font-semibold py-4 px-10 rounded hover:bg-orange-400"
         >
           Explore Recipes
         </a>

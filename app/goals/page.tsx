@@ -51,13 +51,13 @@ const waterData = [
 export default function Goals() {
   return (
     <main className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-4xl font-tahoma font-bold text-brand-green text-center mb-10">
+      <h1 className="text-4xl font-tahoma font-bold text-black text-center mb-10">
         Your Health Goals
       </h1>
 
       {/* Macronutrient Pie Chart */}
       <div className="mb-16 bg-white shadow-lg p-6 rounded-2xl">
-        <h2 className="text-2xl font-bold font-roboto text-brand-darkgreen mb-6 text-center">
+        <h2 className="text-2xl font-bold font-roboto text-orange-600 mb-6 text-center">
           Macronutrient Breakdown
         </h2>
         <ResponsiveContainer width="100%" height={300}>
@@ -83,7 +83,7 @@ export default function Goals() {
 
       {/* Steps Bar Chart */}
       <div className="mb-16 bg-white shadow-lg p-6 rounded-2xl">
-        <h2 className="text-2xl font-bold font-roboto text-brand-orange mb-6 text-center">
+        <h2 className="text-2xl font-bold font-roboto text-green-700 mb-6 text-center">
           Steps This Week
         </h2>
         <ResponsiveContainer width="100%" height={300}>
@@ -99,7 +99,7 @@ export default function Goals() {
 
       {/* Water Intake Line Chart */}
       <div className="bg-white shadow-lg p-6 rounded-2xl">
-        <h2 className="text-2xl font-bold font-roboto text-brand-waterblue mb-6 text-center">
+        <h2 className="text-2xl font-bold font-roboto text-blue-600 mb-6 text-center">
           Water Intake (liters)
         </h2>
         <ResponsiveContainer width="100%" height={300}>
