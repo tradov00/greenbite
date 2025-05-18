@@ -9,13 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@portabletext/react": "^3.2.1",
     "@sanity/icons": "^3.7.0",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.88.3",
     "clsx": "^2.1.1",
     "lucide-react": "^0.510.0",
     "next": "15.3.2",
-    "next-sanity": "^9.11.0",
+    "next-sanity": "^9.11.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recharts": "^2.15.3",
