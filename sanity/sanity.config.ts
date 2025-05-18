@@ -1,12 +1,17 @@
 import { defineConfig } from 'sanity'
-import { schema } from './schemaTypes'
+import { deskTool } from 'sanity/desk'
+import { schemaTypes } from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'Greenbite',
+  title: 'greenbite',
 
   projectId: 'gjw4mkh7',
   dataset: 'production',
 
-  schema,
+  plugins: [deskTool()],
+
+  schema: {
+    types: schemaTypes,
+  },
 })

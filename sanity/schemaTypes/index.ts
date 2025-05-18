@@ -1,17 +1,4 @@
-import { type SchemaTypeDefinition } from 'sanity';
+import recipe from './recipe'
+import { categoryType } from './categoryType'
 
-import { blockContentType } from './blockContentType';
-import { categoryType } from './categoryType';
-import { postType } from './postType';
-import { authorType } from './authorType';
-import { recipeType } from './recipeType';
-
-export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [
-    blockContentType,
-    categoryType,
-    postType,
-    authorType,
-    recipeType,
-  ],
-};
+export const schemaTypes = [recipe, categoryType]
