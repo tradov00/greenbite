@@ -20,7 +20,7 @@ export default function LoginPage() {
   return (
     <main className="flex items-center justify-center min-h-screen bg-gray-100 font-roboto">
       <div className="w-full max-w-lg p-10 bg-white rounded-2xl shadow-lg">
-        <h1 className="text-3xl font-bold text-center text-green-600 mb-8">
+        <h1 className="text-3xl font-bold text-center text-green-700 mb-8">
           Join our community!
         </h1>
 

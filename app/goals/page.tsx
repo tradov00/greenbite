@@ -51,7 +51,7 @@ const waterData = [
 export default function Goals() {
   return (
     <main className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-4xl font-tahoma font-bold text-black text-center mb-10">
+      <h1 className="text-4xl font-tahoma font-bold text-green-700 text-center mb-10">
         Your Health Goals
       </h1>
 

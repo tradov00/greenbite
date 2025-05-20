@@ -135,6 +135,59 @@ export default async function Community({ searchParams }: SearchParams) {
       <div className="py-5 text-green-800">
         Page <span className="font-bold">{page}</span> of <span className="font-bold">{totalPages}</span>
       </div>
+
+      <div className="flex items-baseline gap-8 pb-10">
+        <div className="flex gap-4">
+          <Link
+            href={{
+              pathname: "/community",
+              query: { _page: 1, _limit: pageSize },
+            }}
+            className={clsx(
+              "rounded bg-orange-300 px-3 py-2 text-green-800 font-bold text-xs",
+              page === 1 && "pointer-events-none opacity-50"
+            )}
+          >
+            FIRST
+          </Link>
+          <Link
+            href={{
+              pathname: "/community",
+              query: { _page: page > 1 ? page - 1 : 1, _limit: pageSize },
+            }}
+            className={clsx(
+              "rounded bg-green-500 px-3 py-2 text-white font-bold text-xs",
+              page === 1 && "pointer-events-none opacity-50"
+            )}
+          >
+            PREVIOUS
+          </Link>
+          <Link
+            href={{
+              pathname: "/community",
+              query: { _page: page + 1, _limit: pageSize },
+            }}
+            className={clsx(
+              "rounded bg-green-500 px-3 py-2 text-white font-bold text-xs",
+              page === totalPages && "pointer-events-none opacity-50"
+            )}
+          >
+            NEXT
+          </Link>
+          <Link
+            href={{
+              pathname: "/community",
+              query: { _page: totalPages, _limit: pageSize },
+            }}
+            className={clsx(
+              "rounded bg-orange-300 px-3 py-2 text-green-800 font-bold text-xs",
+              page === totalPages && "pointer-events-none opacity-50"
+            )}
+          >
+            LAST
+          </Link>
+        </div>
+      </div>
     </main>
   );
 }

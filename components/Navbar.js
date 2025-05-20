@@ -3,13 +3,14 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useUser } from "@/contexts/UserContext";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout } = useUser();
   const router = useRouter();
+  const pathname = usePathname();
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -26,7 +27,7 @@ export default function Navbar() {
   return (
     <nav className="bg-green-600 text-white shadow">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo + Name (Left) with Link to home */}
+        {/* Logo + Name */}
         <Link href="/" className="flex items-center space-x-2">
           <img
             src="/logo.png"
@@ -36,23 +37,33 @@ export default function Navbar() {
           <span className="text-2xl font-bold text-white">GreenBite</span>
         </Link>
 
-        {/* Nav Links (Right - Desktop) */}
+        {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-4">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="bg-white text-green-700 hover:text-orange-600 hover:bg-orange-100 px-4 py-2 rounded font-semibold transition"
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`px-4 py-2 rounded font-semibold transition ${
+                  isActive
+                    ? "bg-orange-500 text-white"
+                    : "bg-white text-green-700 hover:text-orange-600 hover:bg-orange-100"
+                }`}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
 
-          {/* User area */}
           {!user ? (
             <Link
               href="/login"
-              className="bg-white text-green-700 hover:text-orange-600 hover:bg-orange-100 px-4 py-2 rounded font-semibold transition"
+              className={`px-4 py-2 rounded font-semibold transition ${
+                pathname === "/login"
+                  ? "bg-orange-500 text-white"
+                  : "bg-white text-green-700 hover:text-orange-600 hover:bg-orange-100"
+              }`}
             >
               Log In
             </Link>
@@ -70,7 +81,7 @@ export default function Navbar() {
                   <div className="px-4 py-2 text-sm font-bold">Hello, {user.name}</div>
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-middle px-4 py-2 text-sm text-red-600 hover:bg-red-300"
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-300"
                   >
                     Log Out
                   </button>
@@ -80,7 +91,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Hamburger Menu (Mobile) */}
+        {/* Hamburger (Mobile) */}
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Menu">
             {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -91,19 +102,31 @@ export default function Navbar() {
       {/* Mobile Dropdown */}
       {isOpen && (
         <div className="md:hidden bg-green-700 px-6 py-4 space-y-2 text-center">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="block bg-white text-green-700 hover:text-orange-600 hover:bg-orange-100 px-4 py-2 rounded font-semibold transition"
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`block px-4 py-2 rounded font-semibold transition ${
+                  isActive
+                    ? "bg-orange-500 text-white"
+                    : "bg-white text-green-700 hover:text-orange-600 hover:bg-orange-100"
+                }`}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
+
           {!user ? (
             <Link
               href="/login"
-              className="block bg-white text-green-700 hover:text-orange-600 hover:bg-orange-100 px-4 py-2 rounded font-semibold transition"
+              className={`block px-4 py-2 rounded font-semibold transition ${
+                pathname === "/login"
+                  ? "bg-orange-500 text-white"
+                  : "bg-white text-green-700 hover:text-orange-600 hover:bg-orange-100"
+              }`}
             >
               Log In
             </Link>
@@ -123,7 +146,7 @@ export default function Navbar() {
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-middle px-4 py-2 text-sm text-red-600 hover:bg-red-300"
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-300"
                   >
                     Log Out
                   </button>
