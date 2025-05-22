@@ -19,8 +19,15 @@ const recipeQuery = groq`*[_type == "recipe" && slug.current == $slug][0]{
     alt
   },
   shortDescription,
-  body,
-  "categories": categories[]->title
+  ingredients,
+  instructions[]{
+    _key,
+    children[]{
+      text
+    }
+  },
+  "categories": categories[]->title,
+  body
 }`
 
 export default async function RecipePage({ params }: Props) {
@@ -46,6 +53,30 @@ export default async function RecipePage({ params }: Props) {
         <p className="text-sm text-gray-500 mb-6">
           Categories: {recipe.categories.join(', ')}
         </p>
+      )}
+
+      {recipe.ingredients?.length > 0 && (
+        <>
+          <h2 className="text-xl font-semibold mb-2">Ingredients</h2>
+          <ul className="list-disc list-inside mb-6">
+            {recipe.ingredients.map((ingredient: string, index: number) => (
+              <li key={index}>{ingredient}</li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      {recipe.instructions?.length > 0 && (
+        <>
+          <h2 className="text-xl font-semibold mb-2">Instructions</h2>
+          <ol className="list-decimal list-inside mb-6">
+            {recipe.instructions.map((step: any, index: number) => (
+              <li key={step._key || index}>
+                {step.children?.map((child: any) => child.text).join('') || `Step ${index + 1}`}
+              </li>
+            ))}
+          </ol>
+        </>
       )}
 
       {recipe.body && (

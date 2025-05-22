@@ -3,12 +3,14 @@ export const recipesQuery = `*[_type == "recipe"]{
   title,
   slug,
   mainImage {
-    asset -> {
+    asset->{
       _id,
       url
     },
     alt
   },
   shortDescription,
-  "categories": categories[]->title
-}`
+  "categories": categories[]->title,
+  ingredients,
+  instructions
+}`;
