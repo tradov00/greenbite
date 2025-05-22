@@ -1,25 +1,37 @@
-import { Post } from "../page";
+import Link from 'next/link'
+import { Post } from '../page'
 
 interface Params {
-    postID: string;
+  postID: string
 }
 
-const BASE_API_URL = "https://jsonplaceholder.typicode.com";
+const BASE_API_URL = 'https://jsonplaceholder.typicode.com'
 
 const getPost = async (id: string): Promise<Post> => {
-    const data = await fetch(`${BASE_API_URL}/posts/${id}`);
-    return data.json();
-};
+  const data = await fetch(`${BASE_API_URL}/posts/${id}`)
+  return data.json()
+}
 
 export default async function Community_Insights_Post({ params }: { params: Params }) {
-    const post = await getPost(params.postID);
+  const post = await getPost(params.postID)
 
-    return (
-        <main className="flex flex-col items-center min-h-screen max-w-5xl m-auto p-10">
-            <h1 className="text-3xl font-bold font-tahoma p-10 capitalize text-green-600">
-                <span>POST {post.id}:</span> {post.title}
-            </h1>
-            <p className="text-xl border-2 border-green-400 font-tahoma text-orange-600 rounded-2xl p-10">{post.body}</p>
-        </main>
-    );
+  return (
+    <main className="flex flex-col items-center min-h-screen max-w-5xl m-auto p-10">
+      <h1 className="text-3xl font-bold font-tahoma p-10 capitalize text-green-600">
+        <span>POST {post.id}:</span> {post.title}
+      </h1>
+
+      <p className="text-xl border-2 border-green-400 font-tahoma text-orange-600 rounded-2xl p-10 mb-10">
+        {post.body}
+      </p>
+
+      {/* Back to Community Page Link */}
+      <Link
+        href="/community"
+        className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 transition"
+      >
+        ← Back to Community
+      </Link>
+    </main>
+  )
 }
