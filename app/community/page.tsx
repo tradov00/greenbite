@@ -1,5 +1,3 @@
-//"use client";
-
 import Link from "next/link";
 import clsx from "clsx";
 import NotFound from "@/app/not-found";
@@ -43,18 +41,17 @@ const getTotalPosts = async (): Promise<number> => {
 
 export default async function Community({ searchParams }: SearchParams) {
   const { _limit, _page } = searchParams;
-  let [pageSize, page] = [_limit, _page].map(Number);
+  const [pageSize, rawPage] = [_limit, _page].map(Number);
+  const page = isNaN(rawPage) ? 1 : rawPage;
   const totalPosts = await getTotalPosts();
-  const totalPages = Math.ceil(totalPosts / 10);
-
-  if (isNaN(page)) page = 1;
-
-  const posts = await getPosts({
-    limit: 10,
-    page: page,
-  });
+  const totalPages = Math.ceil(totalPosts / (pageSize || 10));
 
   if (page > totalPages) return NotFound();
+
+  const posts = await getPosts({
+    limit: pageSize || 10,
+    page: page,
+  });
 
   return (
     <main className="flex flex-col items-center min-h-screen max-w-5xl m-auto p-10">
@@ -63,60 +60,12 @@ export default async function Community({ searchParams }: SearchParams) {
       </h1>
 
       <div className="py-5 text-green-800">
-        Page <span className="font-bold">{page}</span> of <span className="font-bold">{totalPages}</span>
+        Page <span className="font-bold">{page}</span> of{" "}
+        <span className="font-bold">{totalPages}</span>
       </div>
 
       <div className="flex items-baseline gap-8 pb-10">
-        <div className="flex gap-4">
-          <Link
-            href={{
-              pathname: "/community",
-              query: { _page: 1, _limit: pageSize },
-            }}
-            className={clsx(
-              "rounded bg-orange-300 px-3 py-2 text-green-800 font-bold text-xs",
-              page === 1 && "pointer-events-none opacity-50"
-            )}
-          >
-            FIRST
-          </Link>
-          <Link
-            href={{
-              pathname: "/community",
-              query: { _page: page > 1 ? page - 1 : 1, _limit: pageSize },
-            }}
-            className={clsx(
-              "rounded bg-green-500 px-3 py-2 text-white font-bold text-xs",
-              page === 1 && "pointer-events-none opacity-50"
-            )}
-          >
-            PREVIOUS
-          </Link>
-          <Link
-            href={{
-              pathname: "/community",
-              query: { _page: page + 1, _limit: pageSize },
-            }}
-            className={clsx(
-              "rounded bg-green-500 px-3 py-2 text-white font-bold text-xs",
-              page === totalPages && "pointer-events-none opacity-50"
-            )}
-          >
-            NEXT
-          </Link>
-          <Link
-            href={{
-              pathname: "/community",
-              query: { _page: totalPages, _limit: pageSize },
-            }}
-            className={clsx(
-              "rounded bg-orange-300 px-3 py-2 text-green-800 font-bold text-xs",
-              page === totalPages && "pointer-events-none opacity-50"
-            )}
-          >
-            LAST
-          </Link>
-        </div>
+        <PaginationLinks page={page} totalPages={totalPages} pageSize={pageSize || 10} />
       </div>
 
       <ul className="flex flex-col gap-8 p-10 bg-green-100 rounded-2xl w-full">
@@ -133,61 +82,76 @@ export default async function Community({ searchParams }: SearchParams) {
       </ul>
 
       <div className="py-5 text-green-800">
-        Page <span className="font-bold">{page}</span> of <span className="font-bold">{totalPages}</span>
+        Page <span className="font-bold">{page}</span> of{" "}
+        <span className="font-bold">{totalPages}</span>
       </div>
 
       <div className="flex items-baseline gap-8 pb-10">
-        <div className="flex gap-4">
-          <Link
-            href={{
-              pathname: "/community",
-              query: { _page: 1, _limit: pageSize },
-            }}
-            className={clsx(
-              "rounded bg-orange-300 px-3 py-2 text-green-800 font-bold text-xs",
-              page === 1 && "pointer-events-none opacity-50"
-            )}
-          >
-            FIRST
-          </Link>
-          <Link
-            href={{
-              pathname: "/community",
-              query: { _page: page > 1 ? page - 1 : 1, _limit: pageSize },
-            }}
-            className={clsx(
-              "rounded bg-green-500 px-3 py-2 text-white font-bold text-xs",
-              page === 1 && "pointer-events-none opacity-50"
-            )}
-          >
-            PREVIOUS
-          </Link>
-          <Link
-            href={{
-              pathname: "/community",
-              query: { _page: page + 1, _limit: pageSize },
-            }}
-            className={clsx(
-              "rounded bg-green-500 px-3 py-2 text-white font-bold text-xs",
-              page === totalPages && "pointer-events-none opacity-50"
-            )}
-          >
-            NEXT
-          </Link>
-          <Link
-            href={{
-              pathname: "/community",
-              query: { _page: totalPages, _limit: pageSize },
-            }}
-            className={clsx(
-              "rounded bg-orange-300 px-3 py-2 text-green-800 font-bold text-xs",
-              page === totalPages && "pointer-events-none opacity-50"
-            )}
-          >
-            LAST
-          </Link>
-        </div>
+        <PaginationLinks page={page} totalPages={totalPages} pageSize={pageSize || 10} />
       </div>
     </main>
+  );
+}
+
+function PaginationLinks({
+  page,
+  totalPages,
+  pageSize,
+}: {
+  page: number;
+  totalPages: number;
+  pageSize: number;
+}) {
+  return (
+    <div className="flex gap-4">
+      <Link
+        href={{
+          pathname: "/community",
+          query: { _page: 1, _limit: pageSize },
+        }}
+        className={clsx(
+          "rounded bg-orange-300 px-3 py-2 text-green-800 font-bold text-xs",
+          page === 1 && "pointer-events-none opacity-50"
+        )}
+      >
+        FIRST
+      </Link>
+      <Link
+        href={{
+          pathname: "/community",
+          query: { _page: page > 1 ? page - 1 : 1, _limit: pageSize },
+        }}
+        className={clsx(
+          "rounded bg-green-500 px-3 py-2 text-white font-bold text-xs",
+          page === 1 && "pointer-events-none opacity-50"
+        )}
+      >
+        PREVIOUS
+      </Link>
+      <Link
+        href={{
+          pathname: "/community",
+          query: { _page: page + 1, _limit: pageSize },
+        }}
+        className={clsx(
+          "rounded bg-green-500 px-3 py-2 text-white font-bold text-xs",
+          page === totalPages && "pointer-events-none opacity-50"
+        )}
+      >
+        NEXT
+      </Link>
+      <Link
+        href={{
+          pathname: "/community",
+          query: { _page: totalPages, _limit: pageSize },
+        }}
+        className={clsx(
+          "rounded bg-orange-300 px-3 py-2 text-green-800 font-bold text-xs",
+          page === totalPages && "pointer-events-none opacity-50"
+        )}
+      >
+        LAST
+      </Link>
+    </div>
   );
 }
