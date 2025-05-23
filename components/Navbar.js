@@ -1,7 +1,9 @@
 "use client";
+
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useUser } from "@/contexts/UserContext";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -29,10 +31,12 @@ export default function Navbar() {
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo + Name */}
         <Link href="/" className="flex items-center space-x-2">
-          <img
+          <Image
             src="/logo.png"
             alt="GreenBite logo"
-            className="w-14 h-14 object-contain"
+            width={56}
+            height={56}
+            className="object-contain"
           />
           <span className="text-2xl font-bold text-white">GreenBite</span>
         </Link>

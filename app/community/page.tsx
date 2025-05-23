@@ -43,7 +43,7 @@ const getTotalPosts = async (): Promise<number> => {
 
 export default async function Community({ searchParams }: SearchParams) {
   const { _limit, _page } = searchParams;
-  var [pageSize, page] = [_limit, _page].map(Number);
+  let [pageSize, page] = [_limit, _page].map(Number);
   const totalPosts = await getTotalPosts();
   const totalPages = Math.ceil(totalPosts / 10);
 

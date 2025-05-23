@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Hero() {
   return (
     <section className="bg-green-600 text-white py-20">
@@ -6,12 +8,12 @@ export default function Hero() {
         <p className="text-xl mb-8">
           Discover healthy and eco-friendly recipes to nourish your body and the planet.
         </p>
-        <a
+        <Link
           href="/recipes"
           className="bg-white text-lg text-green-600 font-semibold py-4 px-10 rounded hover:bg-orange-400"
         >
           Explore Recipes
-        </a>
+        </Link>
       </div>
     </section>
   );
