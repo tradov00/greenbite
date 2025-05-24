@@ -21,6 +21,15 @@ const getPost = async (id: string): Promise<Post | null> => {
   }
 };
 
+export async function generateStaticParams() {
+  const res = await fetch(`${BASE_API_URL}/posts`);
+  const posts: Post[] = await res.json();
+
+  return posts.map((post) => ({
+    postID: post.id.toString(),
+  }));
+}
+
 interface PageProps {
   params: {
     postID: string;
