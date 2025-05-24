@@ -1,19 +1,40 @@
-import Link from 'next/link'
-import { Post } from '../page'
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
-interface Params {
-  postID: string
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
 }
 
-const BASE_API_URL = 'https://jsonplaceholder.typicode.com'
-
-const getPost = async (id: string): Promise<Post> => {
-  const data = await fetch(`${BASE_API_URL}/posts/${id}`)
-  return data.json()
+interface PageProps {
+  params: {
+    postID: string;
+  };
 }
 
-export default async function Community_Insights_Post({ params }: { params: Params }) {
-  const post = await getPost(params.postID)
+const BASE_API_URL = 'https://jsonplaceholder.typicode.com';
+
+const getPost = async (id: string): Promise<Post | null> => {
+  try {
+    const res = await fetch(`${BASE_API_URL}/posts/${id}`);
+
+    if (!res.ok) return null;
+
+    return res.json();
+  } catch (err) {
+    console.error('Failed to fetch post:', err);
+    return null;
+  }
+};
+
+export default async function CommunityInsightsPost({ params }: PageProps) {
+  const post = await getPost(params.postID);
+
+  if (!post) {
+    return notFound();
+  }
 
   return (
     <main className="flex flex-col items-center min-h-screen max-w-5xl m-auto p-10">
@@ -33,5 +54,5 @@ export default async function Community_Insights_Post({ params }: { params: Para
         ← Back to Community
       </Link>
     </main>
-  )
+  );
 }
