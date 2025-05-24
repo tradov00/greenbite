@@ -18,7 +18,10 @@ const BASE_API_URL = 'https://jsonplaceholder.typicode.com';
 
 const getPost = async (id: string): Promise<Post | null> => {
   try {
-    const res = await fetch(`${BASE_API_URL}/posts/${id}`);
+    const res = await fetch(`${BASE_API_URL}/posts/${id}`, {
+      // Add caching config if needed
+      next: { revalidate: 60 }, // Revalidate every 60 seconds
+    });
 
     if (!res.ok) return null;
 
@@ -33,7 +36,7 @@ export default async function CommunityInsightsPost({ params }: PageProps) {
   const post = await getPost(params.postID);
 
   if (!post) {
-    return notFound();
+    notFound();
   }
 
   return (
@@ -46,7 +49,6 @@ export default async function CommunityInsightsPost({ params }: PageProps) {
         {post.body}
       </p>
 
-      {/* Back to Community Page Link */}
       <Link
         href="/community"
         className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 transition"
