@@ -30,13 +30,11 @@ export async function generateStaticParams() {
   }));
 }
 
-interface PageProps {
-  params: {
-    postID: string;
-  };
-}
-
-export default async function CommunityInsightsPost({ params }: PageProps) {
+export default async function CommunityInsightsPost({
+  params,
+}: {
+  params: { postID: string };
+}) {
   const post = await getPost(params.postID);
 
   if (!post) return notFound();
