@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 interface Post {
   userId: number;
@@ -8,24 +8,28 @@ interface Post {
   body: string;
 }
 
-const BASE_API_URL = "https://jsonplaceholder.typicode.com";
+const BASE_API_URL = 'https://jsonplaceholder.typicode.com';
 
 const getPost = async (id: string): Promise<Post | null> => {
   try {
     const res = await fetch(`${BASE_API_URL}/posts/${id}`);
     if (!res.ok) return null;
     return res.json();
-  } catch {
+  } catch (err) {
+    console.error('Failed to fetch post:', err);
     return null;
   }
 };
 
-export default async function CommunityPost({
-  params,
-}: {
-  params: { postID: string };
-}) {
+interface PageProps {
+  params: {
+    postID: string;
+  };
+}
+
+export default async function CommunityInsightsPost({ params }: PageProps) {
   const post = await getPost(params.postID);
+
   if (!post) return notFound();
 
   return (
