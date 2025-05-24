@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { sanityClient, urlFor } from '@/lib/sanity';
+import { sanityClient} from '@/lib/sanity';
 import { groq } from 'next-sanity';
 import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
@@ -40,13 +40,16 @@ export default async function RecipePage({ params }: Props) {
   return (
     <div className="p-6 max-w-3xl mx-auto">
       {recipe.mainImage?.asset?.url && (
-        <Image
-          src={recipe.mainImage.asset.url}
-          alt={recipe.mainImage.alt || recipe.title}
-          width={800}
-          height={400}
-          className="w-full h-auto rounded mb-6"
-        />
+        <div className="relative w-full max-w-2xl aspect-video mx-auto mb-6">
+          <Image
+            src={recipe.mainImage.asset.url}
+            alt={recipe.mainImage.alt || recipe.title}
+            fill
+            className="object-cover rounded"
+            sizes="(max-width: 768px) 100vw, 768px"
+            priority
+          />
+        </div>
       )}
 
       <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
