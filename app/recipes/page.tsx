@@ -31,10 +31,11 @@ type Recipe = {
 export default async function RecipesPage({
   searchParams,
 }: {
-  searchParams: { category?: string };
+  searchParams: Promise<{ category?: string }>;
 }) {
+  const { category } = await searchParams;
   const allRecipes: Recipe[] = await sanityClient.fetch(recipesQuery);
-  const categoryFilter = searchParams.category?.toLowerCase();
+  const categoryFilter = category?.toLowerCase();
 
   const recipes = categoryFilter
     ? allRecipes.filter((r) =>

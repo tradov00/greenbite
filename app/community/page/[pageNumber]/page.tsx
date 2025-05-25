@@ -16,7 +16,9 @@ interface Pagination {
 
 const BASE_API_URL = "https://jsonplaceholder.typicode.com";
 
-const getPosts = async (pagination: Pagination): Promise<Post[]> => {
+const getPosts = async (
+  pagination: Pagination = { limit: 10, page: 1 }
+): Promise<Post[]> => {
   const res = await fetch(
     `${BASE_API_URL}/posts?_limit=${pagination.limit}&_page=${pagination.page}`
   );
@@ -30,17 +32,30 @@ const getTotalPosts = async (): Promise<number> => {
   return parseInt(res.headers.get("x-total-count") || "1", 10);
 };
 
-export default async function CommunityPage({
-  params,
-}: {
-  params: { pageNumber: string };
-}) {
+export async function generateStaticParams() {
+  const totalPosts = await getTotalPosts();
   const pageSize = 10;
-  const page = Number(params.pageNumber) || 1;
+  const totalPages = Math.ceil(totalPosts / pageSize);
+
+  return Array.from({ length: totalPages }, (_, i) => ({
+    pageNumber: (i + 1).toString(),
+  }));
+}
+
+export const dynamicParams = false;
+
+type Props = {
+  params: Promise<{ pageNumber: string }>;
+};
+
+export default async function CommunityPage({ params }: Props) {
+  const { pageNumber } = await params;
+  const pageSize = 10;
+  const page = Number(pageNumber) || 1;
   const totalPosts = await getTotalPosts();
   const totalPages = Math.ceil(totalPosts / pageSize);
 
-  if (page < 1 || page > totalPages) return NotFound();
+  if (page > totalPages || page < 1) return NotFound();
 
   const posts = await getPosts({ limit: pageSize, page });
 
@@ -55,7 +70,9 @@ export default async function CommunityPage({
         <span className="font-bold">{totalPages}</span>
       </div>
 
-      <PaginationLinks page={page} totalPages={totalPages} />
+      <div className="flex items-baseline gap-8 pb-10">
+        <PaginationLinks page={page} totalPages={totalPages} />
+      </div>
 
       <ul className="flex flex-col gap-8 p-10 bg-green-100 rounded-2xl w-full">
         {posts.map((post) => (
@@ -70,14 +87,27 @@ export default async function CommunityPage({
         ))}
       </ul>
 
-      <PaginationLinks page={page} totalPages={totalPages} />
+      <div className="py-5 text-green-800">
+        Page <span className="font-bold">{page}</span> of{" "}
+        <span className="font-bold">{totalPages}</span>
+      </div>
+
+      <div className="flex items-baseline gap-8 pb-10">
+        <PaginationLinks page={page} totalPages={totalPages} />
+      </div>
     </main>
   );
 }
 
-function PaginationLinks({ page, totalPages }: { page: number; totalPages: number }) {
+function PaginationLinks({
+  page,
+  totalPages,
+}: {
+  page: number;
+  totalPages: number;
+}) {
   return (
-    <div className="flex gap-4 pb-10">
+    <div className="flex gap-4">
       <Link
         href={`/community/page/1`}
         className={clsx(

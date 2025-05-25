@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { sanityClient} from '@/lib/sanity';
+import { sanityClient } from '@/lib/sanity';
 import { groq } from 'next-sanity';
 import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
@@ -10,9 +10,7 @@ interface Step {
 }
 
 interface Props {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string }>;
 }
 
 const recipeQuery = groq`*[_type == "recipe" && slug.current == $slug][0]{
@@ -33,7 +31,9 @@ const recipeQuery = groq`*[_type == "recipe" && slug.current == $slug][0]{
 }`;
 
 export default async function RecipePage({ params }: Props) {
-  const recipe = await sanityClient.fetch(recipeQuery, { slug: params.slug });
+  const { slug } = await params;
+
+  const recipe = await sanityClient.fetch(recipeQuery, { slug });
 
   if (!recipe) return <div className="p-6">Recipe not found.</div>;
 
